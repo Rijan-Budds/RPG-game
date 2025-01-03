@@ -1,5 +1,5 @@
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class RPG {
     private static Scanner scanner = new Scanner(System.in);
@@ -13,11 +13,25 @@ public class RPG {
 
     private static void initializeGame() {
         System.out.println("Welcome to the Adventure!");
-        System.out.print("Enter your character's name: ");
-        String name = scanner.nextLine();
-        player = new Player(name);
-        System.out.println("\nWelcome " + name + "! Your adventure begins...");
+
+        while (true) {
+            try {
+                System.out.print("Enter your character's name: ");
+                String name = scanner.nextLine();
+
+                if (name.matches("\\d+")) {
+                    throw new IllegalArgumentException("Name cannot be a number. Please enter a valid name.");
+                }
+
+                player = new Player(name);
+                System.out.println("\nWelcome " + name + "! Your adventure begins...");
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
+
 
     private static void gameLoop() {
         while (player.isAlive()) {
